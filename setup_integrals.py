@@ -9,3 +9,10 @@ setup(
                   ["integrals.pyx"],
                   ),
     ])
+setup(
+    cmdclass={'build_ext': build_ext},
+    ext_modules=[
+        Extension("files_operations",
+                  ["files_operations.pyx"],
+                  ),
+    ])
