@@ -124,7 +124,6 @@ list_of_r_values = []
 for j in range(n_states):
     r_values = []
     f_values = []
-    print (str(energy[j]) + "   " +
     with open("/home/martas/numerov_11_5_normalized_dr_const1D/psi_l=" + str(l[j]) + "_" + str(energy[j]) + '_normalized_dr_const1D.dat') as data:
         counter = 0
         for lin in csv.reader(data, dialect="excel-tab"):

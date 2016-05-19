@@ -1,39 +1,57 @@
 #  integrals module
 from scipy import integrate
 from scipy import special
+import numpy as np
+cimport cython
+@cython.boundscheck(False)
+@cython.wraparound(False)
 
 
-def spp_1d_integrate(i, j, rm):
-    lim_low = - min(rm[i], rm[j])
-    lim_up = min(rm[i], rm[j])
-    return integrate.quad(lambda x: f(i, x) * f(j, x), lim_low, lim_up)
+
+
+def spp_1d_integrate(np.ndarray[np.float64_t, ndim = 2] matrix,  np.ndarray[np.float64_t, ndim = 1] rm):
+    cdef double lim_low, lim_up
+    cdef Py_ssize_t i, j
+    result = matrix
+    for i in range(matrix.shape[0]):
+        for j in range(matrix.shape[1]):
+            lim_low = - min(rm[i], rm[j])
+            lim_up = min(rm[i], rm[j])
+            result[i, j] = integrate.quad(lambda x: f(i, x) * f(j, x), lim_low, lim_up)[0]
+    return result
+
 
 
 def spm_1d_integrate(i, j, rm, d):
+    cdef double lim_low, lim_up
     lim_low = - rm[j] + d
     lim_up = rm[i] - d
     return integrate.quad(lambda x: f(i, x - d) * f(j, x + d), lim_low, lim_up)
 
 
 def rpp_1d_integrate(i, j, rm, d):
+    cdef double lim_low, lim_up
     lim_low = - min(rm[i], rm[j]) - d
     lim_up = min(rm[i], rm[j]) - d
     return integrate.quad(lambda x: f(i, x + d) * (1 / ((x - d) ** 2 + b ** 2) ** 2) * f(j, x + d), lim_low, lim_up)
 
 
 def rpm_1d_integrate(i, j, rm, d):
+    cdef double lim_low, lim_up
     lim_low = - rm[j] + d
     lim_up = rm[i] - d
     return integrate.quad(lambda x: f(i, x - d) * (1 / ((x - d) ** 2 + b ** 2) ** 2) * f(j, x + d), lim_low, lim_up)
 
 
 def app_1d_integrate(i, j, rm, d):
+    cdef double lim_low, lim_up
     lim_low = - min(rm[i], rm[j]) - d
     lim_up = min(rm[i], rm[j]) - d
     return integrate.quad(lambda x: f(i, x + d) * (x - d) ** 2 * f(j, x + d), lim_low, lim_up)
 
 
 def apm_1d_integrate(i, j, rm, d):
+    cdef double lim_low, lim_up
     lim_low = - rm[j] + d
     lim_up = rm[i] - d
     return integrate.quad(lambda x: f(i, x - d) * (x - d) ** 2 * f(j, x + d), lim_low, lim_up)
