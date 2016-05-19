@@ -2,14 +2,19 @@
 from scipy import integrate
 from scipy import special
 import numpy as np
+cimport numpy as np
 cimport cython
 @cython.boundscheck(False)
 @cython.wraparound(False)
 
+ctypedef np.ndarray[np.float64_t, ndim = 2] arr_2D
+ctypedef np.ndarray[np.float64_t, ndim = 1] arr_1D
+
+cdef double f( double x, arr_1D x_vals, arr_1D y_vals):
+    return np.interp(x, x_vals, y_vals)
 
 
-
-def spp_1d_integrate(np.ndarray[np.float64_t, ndim = 2] matrix,  np.ndarray[np.float64_t, ndim = 1] rm):
+def spp_1d_integrate(arr_2D matrix,  arr_1D rm, arr_1D x_vals, arr_1D y_vals):
     cdef double lim_low, lim_up
     cdef Py_ssize_t i, j
     result = matrix
@@ -19,7 +24,6 @@ def spp_1d_integrate(np.ndarray[np.float64_t, ndim = 2] matrix,  np.ndarray[np.f
             lim_up = min(rm[i], rm[j])
             result[i, j] = integrate.quad(lambda x: f(i, x) * f(j, x), lim_low, lim_up)[0]
     return result
-
 
 
 def spm_1d_integrate(i, j, rm, d):
