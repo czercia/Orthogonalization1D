@@ -16,3 +16,17 @@ setup(
                   ["files_operations.pyx"],
                   ),
     ])
+setup(
+    cmdclass={'build_ext': build_ext},
+    ext_modules=[
+        Extension("integrals_analytical",
+                  ["integrals_analytical.pyx"],
+                  ),
+    ])
+setup(
+    cmdclass={'build_ext': build_ext},
+    ext_modules=[
+        Extension("orthogonalization",
+                  ["ortogonalization.pyx"],
+                  ),
+    ])

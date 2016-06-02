@@ -1,62 +1,45 @@
 import math
 import multiprocessing
 import numpy as np
-import warnings
-
 import integrals
-
-warnings.filterwarnings("ignore")
-from contextlib import contextmanager
-
-
-@contextmanager
-def ignored(*exceptions):
-    try:
-        yield
-    except exceptions:
-        pass
-
-
 import csv
 
 # ***********************************************************************************************
 # parameters
 
 
-d_init = 1
-delta_d = 2
-l_max = 11
-
-alpha = 0.001
-files_before = False
-b = 0.1
-plot_functions = False
-ile_stanow = []
-ile_stanow.append(10)
-
-for i in range(1, l_max):
-    ile_stanow.append(10)
-
-# ************************************************************************************************
-# read which functions to get
-
-
-if not files_before:
-    n_before = 0
-if files_before:
-    n_before = 0
-    with open("spp_.txt") as data3:
-        for line in csv.reader(data3, dialect="excel-tab"):
-            n_before += 1
-
-print ("n_before = " + str(n_before))
+# d_init = 1
+# delta_d = 2
+# l_max = 11
+#
+# alpha = 0.001
+# files_before = False
+# b = 0.1
+# plot_functions = False
+# ile_stanow = []
+# ile_stanow.append(10)
+#
+# for i in range(1, l_max):
+#     ile_stanow.append(10)
+#
+# # ************************************************************************************************
+# # read which functions to get
+#
+#
+# if not files_before:
+#     n_before = 0
+# if files_before:
+#     n_before = 0
+#     with open("spp_.txt") as data3:
+#         for line in csv.reader(data3, dialect="excel-tab"):
+#             n_before += 1
+#
+# print ("n_before = " + str(n_before))
 
 energy = []
 n_states = 0
 count = 1
 l = []
-n_l = []
-n_l = ile_stanow
 
 # *************************
 for ll in range(l_max):
